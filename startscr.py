@@ -4,7 +4,7 @@ from settings import *
 class Startscr:
     screen = pygame.display.set_mode((1950,1050))
     pygame.display.set_caption('Jon game')
-    # Variable to keep our game loop running
+    # Variable to keep game loop running
     running = True
     # game loop
     while running:
@@ -14,6 +14,8 @@ class Startscr:
             if event.type == pygame.QUIT:
                 running = False
         # Fill the background colour to the screen
+        # add text
         screen.fill(background_colour)
-        screen.blit(surufaceObj, (100, 100))
+        screen.blit(startscreentext1, (500, 100))
+        screen.blit(startscreentext2, (10, 500))
         pygame.display.flip()
