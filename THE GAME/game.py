@@ -17,10 +17,11 @@ class Startscr:
             # Check for QUIT event      
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.K_RETURN:
-                event.key == pygame.k_RETURN
+            if event.type == pygame.K_KP_ENTER:
+                event.key == pygame.K_KP_ENTER
                 running = False
                 game = Game()
         # display image as start screen
-        pygame.blit(bootupimage , (scX,scY))
+        screen.fill((background_colour))
+        screen.blit(bootupimage , (0,0))
         pygame.display.flip()
