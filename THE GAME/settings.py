@@ -18,4 +18,8 @@ startscreentext1 = fontObjfirst.render('Are you ready . . .', True, TEXTCOLOUR, 
 startscreentext2 = fontObjsecond.render('press enter to start mission', True, TEXTCOLOUR, None)
 #Startscreenfinal
 bootup = pygame.image.load('images/startscreen.png')
-bootupimage = pygame.transform.scale(bootup, (screen_width, screen_height))
+bootupimage = pygame.transform.scale(bootup, (screen_width, screen_height))#
+#THE MAP!!!
+TILESIZE = 32
+Gridwidth= screen_width / TILESIZE
+gridheight= screen_height /TILESIZE
