@@ -11,10 +11,11 @@ TEXTCOLOUR = (171,55,87)
 FPS = 60
 fpsClock = pygame.time.Clock()
 font = pygame.font.Font(None, 100)
-#startscreen
+#startscreen first draft
 fontObjfirst = pygame.font.SysFont('impact', 100)
 fontObjsecond = pygame.font.SysFont('impact', 50)
 startscreentext1 = fontObjfirst.render('Are you ready . . .', True, TEXTCOLOUR, None)
 startscreentext2 = fontObjsecond.render('press enter to start mission', True, TEXTCOLOUR, None)
+#Startscreenfinal
 bootup = pygame.image.load('images/startscreen.png')
 bootupimage = pygame.transform.scale(bootup, (screen_width, screen_height))
