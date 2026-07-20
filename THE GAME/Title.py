@@ -18,12 +18,12 @@ class Startscr:
             for event in pygame.event.get():
                 # Check for QUIT event      
                 if event.type == pygame.QUIT:
-                    running = False
+                    self.running = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_b:
                         newgame = Gameygamerson()
                         newgame.run()
-                        running = False
+                        self.running = False
             # display image as start screen
             self.screen.fill((background_colour))
             self.screen.blit(bootupimage , (0,0))

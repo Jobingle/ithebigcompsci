@@ -17,7 +17,7 @@ class Gameygamerson:
         while self.runninging: 
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
-                    runninging = False
+                    self.runninging = False
             self.screen.fill((background_colour))
             self.draw_grid()
             pygame.display.update()
