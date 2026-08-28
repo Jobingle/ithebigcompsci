@@ -7,6 +7,8 @@ screen_height = 1050
 BLACK = (0,0,0)
 WHITE = (255,255,255)
 TEXTCOLOUR = (171,55,87)
+#playa
+speed = 5
 #time
 FPS = 60
 fpsClock = pygame.time.Clock()
