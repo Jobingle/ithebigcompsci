@@ -1,4 +1,4 @@
-import pygame, sys, random
+import pygame, sys, random ,math
 pygame.init()
 #colour
 background_colour = (143,143,143)

@@ -18,15 +18,21 @@ class Player(pygame.sprite.Sprite):
     def moveXL(self, speed):
         self.xspeed = -speed
         if self.direction != "L":
-            self.directiom = "L"
+            self.direction = "L"
             self.animation_count = 0
     def moveXR(self, speed):
         self.xspeed = speed
         if self.direction != "R":
-            self.directiom = "R"
+            self.direction = "R"
             self.animation_count = 0
-    def loop(self):
-        self.move(self.x,self.y)
+    def moveU(self, speed):
+        self.yspeed = -speed
+    def moveD(self, speed):
+        self.yspeed = speed
+
+    def loop(self, fps):
+        self.move(self.xspeed,self.yspeed)
+
     def draw(self,Gameygamerson_object_screen):
         pygame.draw.rect(Gameygamerson_object_screen, self.color, self.rect)
 #argyblargybarggg
@@ -39,6 +45,19 @@ class Gameygamerson:
         self.runninging = True
         self.player = Player(100,100,50,50)
 
+    def pmove(self, player):
+        keys = pygame.key.get_pressed()
+        player.xspeed = 0
+        player.yspeed = 0
+        if keys[pygame.K_LEFT]:
+          player.moveXL(player.speed)
+        if keys[pygame.K_RIGHT]:
+          player.moveXR(player.speed)
+        if keys[pygame.K_UP]:
+          player.yspeed = -player.speed
+        if keys[pygame.K_DOWN]:
+          player.yspeed = player.speed
+
     def draw_grid(self):
         for x in range(0,screen_width,TILESIZE):
             pygame.draw.line(self.screen ,BLACK ,(x,0), (x, screen_height))
@@ -48,10 +67,13 @@ class Gameygamerson:
     def run(self):
         #loop
         while self.runninging: 
+            fpsClock.tick(FPS)
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
                     self.runninging = False
             self.screen.fill((background_colour))
             self.draw_grid()
+            self.pmove(self.player)
+            self.player.loop(FPS)
             self.player.draw(self.screen)
             pygame.display.update()
