@@ -1,15 +1,46 @@
 import pygame
 from settings import *
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y,width ,height):
+        super().__init__()
         self.rect = pygame.Rect(x,y,width,height)
+        new_size = (x,y)
         self.speed = 5
         self.xspeed = 0 
         self.yspeed = 0
         self.mask = None
         self.direction = "L"
         self.animation_count = 0
+        self.animation_speed = 0.1 
         self.color = WHITE
+        self.animation_framesPL = [pygame.transform.scale(pygame.image.load("images/playerWL1.png").convert_alpha(), new_size),pygame.transform.scale(pygame.image.load("images/playerWL2.png").convert_alpha(), new_size)]
+        self.animation_framesPR = [pygame.transform.scale(pygame.image.load("images/playerWR1.png").convert_alpha(), new_size),pygame.transform.scale(pygame.image.load("images/playerWR2.png").convert_alpha(), new_size)]
+        self.animation_framesPS = [pygame.transform.scale(pygame.image.load("images/playerstand.png").convert_alpha(), new_size)]
+        self.image = self.animation_framesPS[0]
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
+
+    def animate(self):
+        self.animation_count += self.animation_speed
+        
+        if self.direction == "L":
+            if self.animation_count >= len(self.animation_framesPL):
+                self.animation_count = 0
+            self.image = self.animation_framesPL[int(self.animation_count)]
+            
+        elif self.direction == "R":
+            if self.animation_count >= len(self.animation_framesPR):
+                self.animation_count = 0
+            self.image = self.animation_framesPR[int(self.animation_count)]
+            
+        elif self.direction in ("U", "D"):
+            if self.animation_count >= len(self.animation_framesPS):
+                self.animation_count = 0
+            self.image = self.animation_framesPS[int(self.animation_count)]
+
+    def update(self):
+        self.animate()
 
     def move(self, dx , dy):
         self.rect.x += dx
@@ -27,14 +58,17 @@ class Player(pygame.sprite.Sprite):
             self.animation_count = 0
     def moveU(self, speed):
         self.yspeed = -speed
+        if self.direction != "U":
+            self.direction = "U"
+            self.animation_count = 0
     def moveD(self, speed):
         self.yspeed = speed
+        if self.direction != "D":
+            self.direction = "D"
+            self.animation_count = 0
 
     def loop(self, fps):
         self.move(self.xspeed,self.yspeed)
-
-    def draw(self,Gameygamerson_object_screen):
-        pygame.draw.rect(Gameygamerson_object_screen, self.color, self.rect)
 #argyblargybarggg
 
 
@@ -44,6 +78,8 @@ class Gameygamerson:
         pygame.display.set_caption('Seth the Spy')
         self.runninging = True
         self.player = Player(100,100,50,50)
+        self.all_sprites = pygame.sprite.Group()
+        self.all_sprites.add(self.player)
 
     def pmove(self, player):
         keys = pygame.key.get_pressed()
@@ -54,9 +90,9 @@ class Gameygamerson:
         if keys[pygame.K_RIGHT]:
           player.moveXR(player.speed)
         if keys[pygame.K_UP]:
-          player.yspeed = -player.speed
+          player.moveU(player.speed)
         if keys[pygame.K_DOWN]:
-          player.yspeed = player.speed
+          player.moveD(player.speed)
 
     def draw_grid(self):
         for x in range(0,screen_width,TILESIZE):
@@ -75,5 +111,6 @@ class Gameygamerson:
             self.draw_grid()
             self.pmove(self.player)
             self.player.loop(FPS)
-            self.player.draw(self.screen)
+            self.all_sprites.update()
+            self.all_sprites.draw(self.screen)
             pygame.display.update()
