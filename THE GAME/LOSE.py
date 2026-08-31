@@ -5,13 +5,11 @@ from game import *
 class looser:
     def __init__(self):
         self.screen = pygame.display.set_mode((1950,1050))
-        pygame.display.set_caption('looser')
+        pygame.display.set_caption('loser')
         # Variable to keep game loop running
         self.running = True
 
     def play(self):
-        
-        
         # game loop
         while self.running:
         # for loop through the event queue  

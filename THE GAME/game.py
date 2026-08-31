@@ -114,20 +114,19 @@ class Gameygamerson:
             pygame.draw.line(self.screen ,BLACK ,(0,y), (screen_width, y))
 
     def run(self):
-        #loop
         while self.runninging: 
             fpsClock.tick(FPS)
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
                     self.runninging = False
-                if self.player.rect.x == self.enemyX.rect.x and self.player.rect.y == self.enemyX.rect.y :
-                    newgame = looser()
-                    newgame.run()
-                    self.runninging = False
             self.screen.fill((background_colour))
             self.draw_grid()
             self.pmove(self.player)
             self.player.loop(FPS)
+            if self.player.rect.colliderect(self.enemyX.rect):
+                newgame = looser()
+                newgame.play()
+                self.runninging = False
             self.all_sprites.update()
             self.all_sprites.draw(self.screen)
             pygame.display.update()
