@@ -1,5 +1,7 @@
 import pygame
 from settings import *
+from LOSE import looser
+from ENemy import enemyX
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y,width ,height):
@@ -80,8 +82,10 @@ class Gameygamerson:
         pygame.display.set_caption('Seth the Spy')
         self.runninging = True
         self.player = Player(50,50,100,100)
+        self.enemyX = enemyX(500, 500 , 100 , 100)
         self.all_sprites = pygame.sprite.Group()
         self.all_sprites.add(self.player)
+        self.all_sprites.add(self.enemyX)
 
     def pmove(self, player):
         keys = pygame.key.get_pressed() 
@@ -98,6 +102,11 @@ class Gameygamerson:
         screen_rect = self.screen.get_rect()
         player.rect.clamp_ip(screen_rect)
 
+    def Emove(self, enemyX):
+        for counter in range(1950):
+            if self.player.x == enemyX.x + counter:
+                enemyX.aggro = True
+
     def draw_grid(self):
         for x in range(0,screen_width,TILESIZE):
             pygame.draw.line(self.screen ,BLACK ,(x,0), (x, screen_height))
@@ -110,6 +119,10 @@ class Gameygamerson:
             fpsClock.tick(FPS)
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
+                    self.runninging = False
+                if self.player.rect.x == self.enemyX.rect.x and self.player.rect.y == self.enemyX.rect.y :
+                    newgame = looser()
+                    newgame.run()
                     self.runninging = False
             self.screen.fill((background_colour))
             self.draw_grid()
