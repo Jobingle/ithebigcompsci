@@ -5,7 +5,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, x, y,width ,height):
         super().__init__()
         self.rect = pygame.Rect(x,y,width,height)
-        new_size = (x,y)
+        new_size = (width,height)
         self.speed = 5
         self.xspeed = 0 
         self.yspeed = 0
@@ -68,7 +68,9 @@ class Player(pygame.sprite.Sprite):
             self.animation_count = 0
 
     def loop(self, fps):
+        self.Lmove = (self.rect.x,self.rect.y)
         self.move(self.xspeed,self.yspeed)
+        
 #argyblargybarggg
 
 
@@ -77,22 +79,24 @@ class Gameygamerson:
         self.screen = pygame.display.set_mode((1950,1050))
         pygame.display.set_caption('Seth the Spy')
         self.runninging = True
-        self.player = Player(100,100,50,50)
+        self.player = Player(50,50,100,100)
         self.all_sprites = pygame.sprite.Group()
         self.all_sprites.add(self.player)
 
     def pmove(self, player):
-        keys = pygame.key.get_pressed()
+        keys = pygame.key.get_pressed() 
         player.xspeed = 0
         player.yspeed = 0
         if keys[pygame.K_LEFT]:
           player.moveXL(player.speed)
-        if keys[pygame.K_RIGHT]:
+        elif keys[pygame.K_RIGHT]:
           player.moveXR(player.speed)
-        if keys[pygame.K_UP]:
+        elif keys[pygame.K_UP]:
           player.moveU(player.speed)
-        if keys[pygame.K_DOWN]:
+        elif keys[pygame.K_DOWN]:
           player.moveD(player.speed)
+        screen_rect = self.screen.get_rect()
+        player.rect.clamp_ip(screen_rect)
 
     def draw_grid(self):
         for x in range(0,screen_width,TILESIZE):
