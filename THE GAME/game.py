@@ -1,6 +1,6 @@
 import pygame
 from settings import *
-from LOSE import looser
+from LOSE import *
 from ENemy import enemyX
 from win import *
 
@@ -84,7 +84,7 @@ class Gameygamerson:
         self.runninging = True
         self.player = Player(50,50,100,100)
         self.enemyX = enemyX(500, 500 , 100 , 100)
-        self.door = theD_O_R_E(1000, 1000 , 100 , 100)
+        self.door = theD_O_R_E(1000, 650 , 100 , 100)
         self.all_sprites = pygame.sprite.Group()
         self.all_sprites.add(self.player)
         self.all_sprites.add(self.enemyX)
@@ -126,10 +126,17 @@ class Gameygamerson:
             self.draw_grid()
             self.pmove(self.player)
             self.player.loop(FPS)
+
             if self.player.rect.colliderect(self.enemyX.rect):
                 newgame = looser()
                 newgame.play()
                 self.runninging = False
+
+            if self.player.rect.colliderect(self.door.rect):
+                newgame = winscr()
+                newgame.play()
+                self.runninging = False
+
             self.all_sprites.update()
             self.all_sprites.draw(self.screen)
             pygame.display.update()

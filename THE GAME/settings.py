@@ -21,7 +21,7 @@ startscreentext2 = fontObjsecond.render('press enter to start mission', True, TE
 #Startscreenfinal
 bootup = pygame.image.load('images/startscreen.png')
 bootupL = pygame.image.load('images/images.jpg')
-bootupw = pygame.image.load('images/W.jpg')
+bootupw = pygame.image.load('images/W.png')
 bootupimage = pygame.transform.scale(bootup, (screen_width, screen_height))
 looseimage = pygame.transform.scale(bootupL, (screen_width, screen_height))
 winimage = pygame.transform.scale(bootupw, (screen_width, screen_height))#
