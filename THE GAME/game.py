@@ -4,14 +4,8 @@ from LOSE import *
 from ENemy import enemyX
 from win import *
 import math
-
-class map:
-    mapx = 1950
-    mapy = 1050
-    
-
-
-
+from pathfinding.core.grid import Grid
+from pathfinding.finder.a_star import AStarFinder
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y,width ,height):
@@ -84,7 +78,9 @@ class Player(pygame.sprite.Sprite):
         self.move(self.xspeed,self.yspeed)
         
 #argyblargybarggg
-
+mapx = 1950
+mapy = 1050
+#ergyblergyblerggg
 
 class Gameygamerson:
     def __init__(self):
@@ -92,12 +88,18 @@ class Gameygamerson:
         pygame.display.set_caption('Seth the Spy')
         self.runninging = True
         self.player = Player(50,50,100,100)
-        self.enemyX = enemyX(500, 500 , 100 , 100)
+        self.enemyX = enemyX(500, 500 , 100 , 100, "U")
+        self.enemyX2 = enemyX(750, 750 , 100 , 100, "D")
+        self.enemyX3 = enemyX(1000, 1000 , 100 , 100, "L")
+        self.enemyX4 = enemyX(250, 250 , 100 , 100, "R")
         self.door = theD_O_R_E(1000, 650 , 100 , 100)
+        self.walls = pygame.sprite.Group()
         self.all_sprites = pygame.sprite.Group()
         self.all_sprites.add(self.player)
         self.all_sprites.add(self.enemyX)
         self.all_sprites.add(self.door)
+        self.grid_width = 1950 // TILESIZE
+        self.grid_height = 1050 // TILESIZE
 
     def pmove(self, player):
         keys = pygame.key.get_pressed() 
@@ -115,12 +117,43 @@ class Gameygamerson:
         player.rect.clamp_ip(screen_rect)
 
     def Emove(self, enemyX):
-        for counter in range(1950):
-            if self.player.rect.x == self.enemyX.rect.x + counter:
-                self.movetoplayer
+        self.movetoplayer(self.player, enemyX)
 
-    def movetoplayer():
-        a=2
+    def movetoplayer(self, player, enemyX):
+        mapX = self.grid_width
+        mapY = self.grid_height
+        matrix = [[1 for _ in range(mapX)] for _ in range(mapY)]
+        grid = Grid(matrix=matrix)
+        start_x = enemyX.rect.x // TILESIZE
+        start_y = enemyX.rect.y // TILESIZE
+        end_x = player.rect.x // TILESIZE
+        end_y = player.rect.y // TILESIZE
+        start_x = max(0, min(start_x, mapX - 1))
+        start_y = max(0, min(start_y, mapY - 1))
+        end_x = max(0, min(end_x, mapX - 1))
+        end_y = max(0, min(end_y, mapY - 1))
+        start = grid.node(start_x, start_y)
+        end = grid.node(end_x, end_y)
+        finder = AStarFinder()
+        path, runs = finder.find_path(start, end, grid)
+        if len(path) > 1:
+            next_node = path[1]
+            enemyX.xspeed = 0
+            enemyX.yspeed = 0
+#gracias hasattr absolute legend
+            if hasattr(next_node, 'x'):
+                nx, ny = next_node.x, next_node.y
+            else:
+                nx, ny = next_node[0], next_node[1]
+            if (nx, ny) == (start_x + 1, start_y):
+                enemyX.moveXR(enemyX.speed)
+            elif (nx, ny) == (start_x - 1, start_y):
+                enemyX.moveXL(enemyX.speed)
+            elif (nx, ny) == (start_x, start_y + 1):
+                enemyX.moveD(enemyX.speed)
+            elif (nx, ny) == (start_x, start_y - 1):
+                enemyX.moveU(enemyX.speed)
+            enemyX.move(enemyX.xspeed, enemyX.yspeed)
 
     def draw_grid(self):
         for x in range(0,screen_width,TILESIZE):
@@ -134,13 +167,32 @@ class Gameygamerson:
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
                     self.runninging = False
+
             self.screen.fill((background_colour))
             self.draw_grid()
+
             self.pmove(self.player)
             self.player.loop(FPS)
-            self.Emove
+
+            self.Emove(self.enemyX)
+            self.enemyX.loop(FPS)
 
             if self.player.rect.colliderect(self.enemyX.rect):
+                newgame = looser()
+                newgame.play()
+                self.runninging = False
+
+            if self.player.rect.colliderect(self.enemyX2.rect):
+                newgame = looser()
+                newgame.play()
+                self.runninging = False
+
+            if self.player.rect.colliderect(self.enemyX3.rect):
+                newgame = looser()
+                newgame.play()
+                self.runninging = False
+
+            if self.player.rect.colliderect(self.enemyX4.rect):
                 newgame = looser()
                 newgame.play()
                 self.runninging = False

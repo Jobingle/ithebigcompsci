@@ -26,6 +26,6 @@ bootupimage = pygame.transform.scale(bootup, (screen_width, screen_height))
 looseimage = pygame.transform.scale(bootupL, (screen_width, screen_height))
 winimage = pygame.transform.scale(bootupw, (screen_width, screen_height))#
 #THE MAP!!!
-TILESIZE = 32
+TILESIZE = 50
 Gridwidth= screen_width / TILESIZE
 gridheight= screen_height /TILESIZE

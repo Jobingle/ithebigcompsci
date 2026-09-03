@@ -2,21 +2,21 @@ import pygame
 from settings import *
 
 class enemyX(pygame.sprite.Sprite):
-    def __init__(self, x, y,width ,height):
+    def __init__(self, x, y,width ,height,face):
         super().__init__()
         self.rect = pygame.Rect(x,y,width,height)
         new_size = (width,height)
-        self.speed = 5
+        self.speed = 2
         self.xspeed = 0 
         self.yspeed = 0
         self.mask = None
-        self.direction = "U"
+        self.direction = face
         self.aggro = False
         self.animation_count = 0
         self.animation_speed = 0.1 
         self.color = WHITE
-        self.animation_framesEL = [pygame.transform.scale(pygame.image.load("images/enemyW1L.png").convert_alpha(), new_size),pygame.transform.scale(pygame.image.load("images/enemyW2L.png").convert_alpha(), new_size)]
-        self.animation_framesER = [pygame.transform.scale(pygame.image.load("images/enemyW1R.png").convert_alpha(), new_size),pygame.transform.scale(pygame.image.load("images/enemyW2R.png").convert_alpha(), new_size)]
+        self.animation_framesER= [pygame.transform.scale(pygame.image.load("images/enemyW1L.png").convert_alpha(), new_size),pygame.transform.scale(pygame.image.load("images/enemyW2L.png").convert_alpha(), new_size)]
+        self.animation_framesEL = [pygame.transform.scale(pygame.image.load("images/enemyW1R.png").convert_alpha(), new_size),pygame.transform.scale(pygame.image.load("images/enemyW2R.png").convert_alpha(), new_size)]
         self.animation_framesES = [pygame.transform.scale(pygame.image.load("images/enemystand.png").convert_alpha(), new_size)]
         self.animation_framesESR = [pygame.transform.scale(pygame.image.load("images/enemyfaceR.png").convert_alpha(), new_size)]
         self.animation_framesESL = [pygame.transform.scale(pygame.image.load("images/enemyfaceL.png").convert_alpha(), new_size)]
