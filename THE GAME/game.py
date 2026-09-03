@@ -107,7 +107,7 @@ class Gameygamerson:
 
     def Emove(self, enemyX):
         for counter in range(1950):
-            if self.player.x == enemyX.x + counter:
+            if self.player.rect.x == self.enemyX.rect + counter:
                 enemyX.aggro = True
 
     def draw_grid(self):
