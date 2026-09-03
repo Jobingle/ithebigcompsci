@@ -10,7 +10,7 @@ class enemyX(pygame.sprite.Sprite):
         self.xspeed = 0 
         self.yspeed = 0
         self.mask = None
-        self.direction = "D"
+        self.direction = "U"
         self.aggro = False
         self.animation_count = 0
         self.animation_speed = 0.1 
@@ -79,4 +79,3 @@ class enemyX(pygame.sprite.Sprite):
     def loop(self, fps):
         self.Lmove = (self.rect.x,self.rect.y)
         self.move(self.xspeed,self.yspeed)
-        

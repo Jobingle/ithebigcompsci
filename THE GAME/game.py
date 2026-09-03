@@ -3,6 +3,15 @@ from settings import *
 from LOSE import *
 from ENemy import enemyX
 from win import *
+import math
+
+class map:
+    mapx = 1950
+    mapy = 1050
+    
+
+
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y,width ,height):
@@ -107,8 +116,11 @@ class Gameygamerson:
 
     def Emove(self, enemyX):
         for counter in range(1950):
-            if self.player.rect.x == self.enemyX.rect + counter:
-                enemyX.aggro = True
+            if self.player.rect.x == self.enemyX.rect.x + counter:
+                self.movetoplayer
+
+    def movetoplayer():
+        a=2
 
     def draw_grid(self):
         for x in range(0,screen_width,TILESIZE):
@@ -126,6 +138,7 @@ class Gameygamerson:
             self.draw_grid()
             self.pmove(self.player)
             self.player.loop(FPS)
+            self.Emove
 
             if self.player.rect.colliderect(self.enemyX.rect):
                 newgame = looser()
