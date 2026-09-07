@@ -1,7 +1,7 @@
 import pygame
 from settings import *
 from LOSE import *
-from ENemy import enemyX
+from ENemy import *
 from win import *
 import math
 from pathfinding.core.grid import Grid
@@ -97,9 +97,13 @@ class Gameygamerson:
         self.all_sprites = pygame.sprite.Group()
         self.all_sprites.add(self.player)
         self.all_sprites.add(self.enemyX)
+        self.all_sprites.add(self.enemyX2)
+        self.all_sprites.add(self.enemyX3)
+        self.all_sprites.add(self.enemyX4)
         self.all_sprites.add(self.door)
         self.grid_width = 1950 // TILESIZE
         self.grid_height = 1050 // TILESIZE
+        self.sneaky = True
 
     def pmove(self, player):
         keys = pygame.key.get_pressed() 
@@ -117,7 +121,11 @@ class Gameygamerson:
         player.rect.clamp_ip(screen_rect)
 
     def Emove(self, enemyX):
-        self.movetoplayer(self.player, enemyX)
+        for counterx in range(1950):
+            if self.player.rect.y == enemyX.rect.y - counterx and self.player.rect.x == enemyX.rect.x:
+                self.sneaky = False
+        if self.sneaky == False:
+            self.movetoplayer(self.player, enemyX)
 
     def movetoplayer(self, player, enemyX):
         mapX = self.grid_width
