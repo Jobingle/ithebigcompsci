@@ -133,14 +133,14 @@ class Gameygamerson:
 
     def Emove3( self, enemyX3):
         for counterx in range(1050):
-            if self.player.rect.x == enemyX3.rect.x + counterx and self.player.rect.y == enemyX3.rect.y:
+            if self.player.rect.x == enemyX3.rect.x - counterx and self.player.rect.y == enemyX3.rect.y:
                 self.sneaky = False
         if self.sneaky == False:
             self.movetoplayer3(self.player, enemyX3)
 
     def Emove4( self, enemyX4):
         for counterx in range(1050):
-            if self.player.rect.x == enemyX4.rect.x - counterx and self.player.rect.y == enemyX4.rect.y:
+            if self.player.rect.x == enemyX4.rect.x + counterx and self.player.rect.y == enemyX4.rect.y:
                 self.sneaky = False
         if self.sneaky == False:
             self.movetoplayer4(self.player, enemyX4)
@@ -309,10 +309,10 @@ class Gameygamerson:
             self.enemyX.loop(FPS)
             self.Emove2(self.enemyX2)
             self.enemyX2.loop(FPS)
-            self.Emove3(self.enemyX2)
-            self.enemyX2.loop(FPS)
-            self.Emove4(self.enemyX2)
-            self.enemyX2.loop(FPS)
+            self.Emove3(self.enemyX3)
+            self.enemyX3.loop(FPS)
+            self.Emove4(self.enemyX4)
+            self.enemyX4.loop(FPS)
 
             if self.player.rect.colliderect(self.enemyX.rect):
                 newgame = looser()
