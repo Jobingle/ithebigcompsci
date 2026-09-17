@@ -3,6 +3,7 @@ from settings import *
 from LOSE import *
 from ENemy import *
 from win import *
+from walls import *
 import math
 from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
@@ -90,7 +91,7 @@ class Gameygamerson:
         self.enemyX3 = enemyX(1000, 1000 , 100 , 100, "L")
         self.enemyX4 = enemyX(250, 250 , 100 , 100, "R")
         self.door = theD_O_R_E(1000, 650 , 100 , 100)
-        self.walls = pygame.sprite.Group()
+        self.walls = THEWALL(650 , 650 , 100 , 100)
         self.all_sprites = pygame.sprite.Group()
         self.all_sprites.add(self.player)
         self.all_sprites.add(self.enemyX)
