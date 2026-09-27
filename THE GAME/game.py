@@ -88,7 +88,7 @@ class Gameygamerson:
         self.player = Player(50,50,100,100)
         self.enemyX = enemyX(500, 500 , 100 , 100, "U")
         self.enemyX2 = enemyX(750, 750 , 100 , 100, "D")
-        self.enemyX3 = enemyX(1000, 1000 , 100 , 100, "L")
+        self.enemyX3 = enemyX(1000, 750 , 100 , 100, "L")
         self.enemyX4 = enemyX(250, 250 , 100 , 100, "R")
         self.door = theD_O_R_E(1000, 650 , 100 , 100)
         self.walls = THEWALL(650 , 650 , 100 , 100)
@@ -102,6 +102,28 @@ class Gameygamerson:
         self.grid_width = 1950 // TILESIZE
         self.grid_height = 1050 // TILESIZE
         self.sneaky = True
+        self.matrix = [
+            [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
+            [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,0],
+            [1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,1,1,1,1,2,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
 #P moves!!!!
     def pmove(self, player):
         keys = pygame.key.get_pressed() 
@@ -149,7 +171,7 @@ class Gameygamerson:
     def movetoplayer(self, player, enemyX):
         mapX = self.grid_width
         mapY = self.grid_height
-        matrix = [[1 for _ in range(mapX)] for _ in range(mapY)]
+        matrix = self.matrix
         grid = Grid(matrix=matrix)
         start_x = enemyX.rect.x // TILESIZE
         start_y = enemyX.rect.y // TILESIZE
@@ -185,7 +207,7 @@ class Gameygamerson:
     def movetoplayer2(self, player, enemyX2):
         mapX = self.grid_width
         mapY = self.grid_height
-        matrix = [[1 for _ in range(mapX)] for _ in range(mapY)]
+        matrix = self.matrix    
         grid = Grid(matrix=matrix)
         start_x = enemyX2.rect.x // TILESIZE
         start_y = enemyX2.rect.y // TILESIZE
@@ -220,7 +242,7 @@ class Gameygamerson:
     def movetoplayer3(self, player, enemyX3):
         mapX = self.grid_width
         mapY = self.grid_height
-        matrix = [[1 for _ in range(mapX)] for _ in range(mapY)]
+        matrix = self.matrix    
         grid = Grid(matrix=matrix)
         start_x = enemyX3.rect.x // TILESIZE
         start_y = enemyX3.rect.y // TILESIZE
@@ -255,7 +277,7 @@ class Gameygamerson:
     def movetoplayer4(self, player, enemyX4):
         mapX = self.grid_width
         mapY = self.grid_height
-        matrix = [[1 for _ in range(mapX)] for _ in range(mapY)]
+        matrix = self.matrix        
         grid = Grid(matrix=matrix)
         start_x=enemyX4.rect.x // TILESIZE
         start_y = enemyX4.rect.y // TILESIZE
