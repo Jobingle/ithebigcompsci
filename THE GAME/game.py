@@ -91,7 +91,6 @@ class Gameygamerson:
         self.enemyX3 = enemyX(1000, 750 , 100 , 100, "L")
         self.enemyX4 = enemyX(250, 250 , 100 , 100, "R")
         self.door = theD_O_R_E(1000, 650 , 100 , 100)
-        self.walls = THEWALL(650 , 650 , 100 , 100)
         self.all_sprites = pygame.sprite.Group()
         self.all_sprites.add(self.player)
         self.all_sprites.add(self.enemyX)
@@ -124,6 +123,16 @@ class Gameygamerson:
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1],
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
+        
+    def draaaaawwwwwwwwww(self): 
+        for row in self.matrix:
+            for i in range(len(row)):
+                if row[i] == 1:
+                    pass
+                elif row[i] == 0:
+                    new_size = (TILESIZE, TILESIZE)
+                    self.screen.blit(pygame.transform.scale(pygame.image.load("images/obj.png").convert_alpha(), new_size), (i * TILESIZE, row.index(row[i]) * TILESIZE))
+
 #P moves!!!!
     def pmove(self, player):
         keys = pygame.key.get_pressed() 
@@ -321,9 +330,10 @@ class Gameygamerson:
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
                     self.runninging = False
-
+            
             self.screen.fill((background_colour))
             self.draw_grid()
+            self.draaaaawwwwwwwwww()
 
             self.pmove(self.player)
             self.player.loop(FPS)
