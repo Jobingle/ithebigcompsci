@@ -85,7 +85,7 @@ class Gameygamerson:
         self.screen = pygame.display.set_mode((1950,1050))
         pygame.display.set_caption('Seth the Spy')
         self.runninging = True
-        self.player = Player(50,50,100,100)
+        self.player = Player(50,250,100,100)
         self.enemyX = enemyX(500, 500 , 100 , 100, "U")
         self.enemyX2 = enemyX(750, 750 , 100 , 100, "D")
         self.enemyX3 = enemyX(1000, 750 , 100 , 100, "L")
@@ -124,15 +124,13 @@ class Gameygamerson:
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
         
-    def draaaaawwwwwwwwww(self): 
-        for row in self.matrix:
-            for i in range(len(row)):
-                if row[i] == 1:
-                    pass
-                elif row[i] == 0:
-                    new_size = (TILESIZE, TILESIZE)
-                    self.screen.blit(pygame.transform.scale(pygame.image.load("images/obj.png").convert_alpha(), new_size), (i * TILESIZE, row.index(row[i]) * TILESIZE))
-
+    def mapGen(self): 
+        for row in range(len(self.matrix)):
+            for i in range(len(self.matrix[row])):
+                if self.matrix[row][i] == 0:
+                    self.new_wall = THEWALL(i * TILESIZE, row * TILESIZE , TILESIZE , TILESIZE)
+                    print(i * TILESIZE, row * TILESIZE)
+                    self.all_sprites.add(self.new_wall)
 #P moves!!!!
     def pmove(self, player):
         keys = pygame.key.get_pressed() 
@@ -325,6 +323,7 @@ class Gameygamerson:
             pygame.draw.line(self.screen ,BLACK ,(0,y), (screen_width, y))
 
     def run(self):
+        self.mapGen()
         while self.runninging: 
             fpsClock.tick(FPS)
             for event in pygame.event.get():    
@@ -333,7 +332,6 @@ class Gameygamerson:
             
             self.screen.fill((background_colour))
             self.draw_grid()
-            self.draaaaawwwwwwwwww()
 
             self.pmove(self.player)
             self.player.loop(FPS)
@@ -346,6 +344,18 @@ class Gameygamerson:
             self.enemyX3.loop(FPS)
             self.Emove4(self.enemyX4)
             self.enemyX4.loop(FPS)
+
+
+            if self.player.rect.colliderect(self.new_wall.rect):
+                if self.player.direction == "L":
+                    self.player.moveXR(self.player.speed+50)
+                elif self.player.direction == "R":
+                    self.player.moveXL(self.player.speed+50)
+                elif self.player.direction == "U":
+                    self.player.moveD(self.player.speed+50)
+                elif self.player.direction == "D":
+                    self.player.moveU(self.player.speed+50)
+                
 
             if self.player.rect.colliderect(self.enemyX.rect):
                 newgame = looser()
