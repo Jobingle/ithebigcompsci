@@ -13,7 +13,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         self.rect = pygame.Rect(x,y,width,height)
         new_size = (width,height)
-        self.speed = 5
+        self.speed = 2.5
         self.xspeed = 0 
         self.yspeed = 0
         self.mask = None
@@ -85,12 +85,12 @@ class Gameygamerson:
         self.screen = pygame.display.set_mode((1950,1050))
         pygame.display.set_caption('Seth the Spy')
         self.runninging = True
-        self.player = Player(50,250,100,100)
-        self.enemyX = enemyX(500, 500 , 100 , 100, "U")
-        self.enemyX2 = enemyX(750, 750 , 100 , 100, "D")
-        self.enemyX3 = enemyX(1000, 750 , 100 , 100, "L")
-        self.enemyX4 = enemyX(250, 250 , 100 , 100, "R")
-        self.door = theD_O_R_E(1000, 650 , 100 , 100)
+        self.player = Player(50,250,TILESIZE,TILESIZE)
+        self.enemyX = enemyX(500, 500 , TILESIZE,TILESIZE, "U")
+        self.enemyX2 = enemyX(750, 750 , TILESIZE,TILESIZE, "D")
+        self.enemyX3 = enemyX(1000, 750 ,TILESIZE,TILESIZE, "L")
+        self.enemyX4 = enemyX(250, 250 ,TILESIZE,TILESIZE, "R")
+        self.door = theD_O_R_E(1000, 650 , TILESIZE,TILESIZE)
         self.all_sprites = pygame.sprite.Group()
         self.all_sprites.add(self.player)
         self.all_sprites.add(self.enemyX)
@@ -151,6 +151,7 @@ class Gameygamerson:
         for counterx in range(1950):
             if self.player.rect.y == enemyX.rect.y - counterx and self.player.rect.x == enemyX.rect.x:
                 self.sneaky = False
+                print("true")
         if self.sneaky == False:
             self.movetoplayer(self.player, enemyX)
 
@@ -158,6 +159,7 @@ class Gameygamerson:
         for counterx in range(1950):
             if self.player.rect.y == enemyX2.rect.y + counterx and self.player.rect.x == enemyX2.rect.x:
                 self.sneaky = False
+                print("true")
         if self.sneaky == False:
             self.movetoplayer2(self.player, enemyX2)
 
@@ -165,6 +167,7 @@ class Gameygamerson:
         for counterx in range(1050):
             if self.player.rect.x == enemyX3.rect.x - counterx and self.player.rect.y == enemyX3.rect.y:
                 self.sneaky = False
+                print("true")
         if self.sneaky == False:
             self.movetoplayer3(self.player, enemyX3)
 
@@ -172,6 +175,7 @@ class Gameygamerson:
         for counterx in range(1050):
             if self.player.rect.x == enemyX4.rect.x + counterx and self.player.rect.y == enemyX4.rect.y:
                 self.sneaky = False
+                print("true")
         if self.sneaky == False:
             self.movetoplayer4(self.player, enemyX4)
 #ENEMY 1!!!
@@ -316,11 +320,6 @@ class Gameygamerson:
                 enemyX4.moveU(enemyX4.speed)
             enemyX4.move(enemyX4.xspeed, enemyX4.yspeed)
 #drawninininginigng
-    def draw_grid(self):
-        for x in range(0,screen_width,TILESIZE):
-            pygame.draw.line(self.screen ,BLACK ,(x,0), (x, screen_height))
-        for y in range(0,screen_height,TILESIZE):
-            pygame.draw.line(self.screen ,BLACK ,(0,y), (screen_width, y))
 
     def run(self):
         self.mapGen()
@@ -330,8 +329,8 @@ class Gameygamerson:
                 if event.type == pygame.QUIT:
                     self.runninging = False
             
-            self.screen.fill((background_colour))
-            self.draw_grid()
+            floorsome = pygame.transform.scale(floor, (screen_width, screen_height))
+            self.screen.blit(floorsome, (0,0))
 
             self.pmove(self.player)
             self.player.loop(FPS)

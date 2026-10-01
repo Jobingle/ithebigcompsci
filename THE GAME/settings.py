@@ -8,7 +8,7 @@ BLACK = (0,0,0)
 WHITE = (255,255,255)
 TEXTCOLOUR = (171,55,87)
 #playa
-speed = 5
+speed = 2.5
 #time
 FPS = 60
 fpsClock = pygame.time.Clock()
@@ -25,6 +25,7 @@ bootupw = pygame.image.load('images/W.png')
 bootupimage = pygame.transform.scale(bootup, (screen_width, screen_height))
 looseimage = pygame.transform.scale(bootupL, (screen_width, screen_height))
 winimage = pygame.transform.scale(bootupw, (screen_width, screen_height))#
+floor = pygame.image.load('images/THE POWER OFF FRIENDSHIP!!!.png')
 #THE MAP!!!
 TILESIZE = 50
 Gridwidth= screen_width / TILESIZE
