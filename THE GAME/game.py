@@ -92,6 +92,7 @@ class Gameygamerson:
         self.enemyX4 = enemyX(250, 250 ,TILESIZE,TILESIZE, "R")
         self.door = theD_O_R_E(1000, 650 , TILESIZE,TILESIZE)
         self.all_sprites = pygame.sprite.Group()
+        self.wall_sprites = pygame.sprite.Group()
         self.all_sprites.add(self.player)
         self.all_sprites.add(self.enemyX)
         self.all_sprites.add(self.enemyX2)
@@ -112,10 +113,10 @@ class Gameygamerson:
             [1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
             [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
             [1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
-            [1,1,1,1,1,1,1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
-            [1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
-            [1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,0],
-            [1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,0],
+            [1,1,1,1,1,1,1,1,0,0,1,1,1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,0],
+            [1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,1,1,1,1,2,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
@@ -128,9 +129,10 @@ class Gameygamerson:
         for row in range(len(self.matrix)):
             for i in range(len(self.matrix[row])):
                 if self.matrix[row][i] == 0:
-                    self.new_wall = THEWALL(i * TILESIZE, row * TILESIZE , TILESIZE , TILESIZE)
+                    new_wall = THEWALL(i * TILESIZE, row * TILESIZE , TILESIZE , TILESIZE)
                     print(i * TILESIZE, row * TILESIZE)
-                    self.all_sprites.add(self.new_wall)
+                    self.all_sprites.add(new_wall)
+                    self.wall_sprites.add(new_wall)
 #P moves!!!!
     def pmove(self, player):
         keys = pygame.key.get_pressed() 
@@ -344,16 +346,17 @@ class Gameygamerson:
             self.Emove4(self.enemyX4)
             self.enemyX4.loop(FPS)
 
-
-            if self.player.rect.colliderect(self.new_wall.rect):
-                if self.player.direction == "L":
-                    self.player.moveXR(self.player.speed+50)
-                elif self.player.direction == "R":
-                    self.player.moveXL(self.player.speed+50)
-                elif self.player.direction == "U":
-                    self.player.moveD(self.player.speed+50)
-                elif self.player.direction == "D":
-                    self.player.moveU(self.player.speed+50)
+            for wall in self.wall_sprites:
+                if self.player.rect.colliderect(wall):
+                    print("COllISION")
+                    if self.player.direction == "L":
+                        self.player.rect.left = wall.rect.right
+                    elif self.player.direction == "R":
+                        self.player.rect.right = wall.rect.left
+                    elif self.player.direction == "U":
+                        self.player.rect.top = wall.rect.bottom
+                    elif self.player.direction == "D":
+                        self.player.rect.bottom = wall.rect.top
                 
 
             if self.player.rect.colliderect(self.enemyX.rect):
