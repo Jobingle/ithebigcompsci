@@ -20,7 +20,7 @@ class Startscr:
                 if event.type == pygame.QUIT:
                     self.running = False
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_b:
+                    if event.key == pygame.K_KP_ENTER:
                         newgame = Gameygamerson()
                         newgame.run()
                         self.running = False

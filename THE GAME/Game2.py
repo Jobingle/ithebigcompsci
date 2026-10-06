@@ -7,80 +7,11 @@ from walls import *
 import math
 from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
-
-class Player(pygame.sprite.Sprite):
-    def __init__(self, x, y,width ,height):
-        super().__init__()
-        self.rect = pygame.Rect(x,y,width,height)
-        new_size = (width,height)
-        self.speed = 2.5
-        self.xspeed = 0 
-        self.yspeed = 0
-        self.mask = None
-        self.direction = "L"
-        self.animation_count = 0
-        self.animation_speed = 0.1 
-        self.color = WHITE
-        self.animation_framesPL = [pygame.transform.scale(pygame.image.load("images/playerWL1.png").convert_alpha(), new_size),pygame.transform.scale(pygame.image.load("images/playerWL2.png").convert_alpha(), new_size)]
-        self.animation_framesPR = [pygame.transform.scale(pygame.image.load("images/playerWR1.png").convert_alpha(), new_size),pygame.transform.scale(pygame.image.load("images/playerWR2.png").convert_alpha(), new_size)]
-        self.animation_framesPS = [pygame.transform.scale(pygame.image.load("images/playerstand.png").convert_alpha(), new_size)]
-        self.image = self.animation_framesPS[0]
-        self.rect = self.image.get_rect()
-        self.rect.topleft = (x, y)
-#animation
-    def animate(self):
-        self.animation_count += self.animation_speed       
-        if self.direction == "L":
-            if self.animation_count >= len(self.animation_framesPL):
-                self.animation_count = 0
-            self.image = self.animation_framesPL[int(self.animation_count)]   
-
-        elif self.direction == "R":
-            if self.animation_count >= len(self.animation_framesPR):
-                self.animation_count = 0
-            self.image = self.animation_framesPR[int(self.animation_count)]   
-
-        elif self.direction in ("U", "D"):
-            if self.animation_count >= len(self.animation_framesPS):
-                self.animation_count = 0
-            self.image = self.animation_framesPS[int(self.animation_count)]
-
-    def update(self):
-        self.animate()
-
-    def move(self, dx , dy):
-        self.rect.x += dx
-        self.rect.y += dy
-
-    def moveXL(self, speed):
-        self.xspeed = -speed
-        if self.direction != "L":
-            self.direction = "L"
-            self.animation_count = 0
-    def moveXR(self, speed):
-        self.xspeed = speed
-        if self.direction != "R":
-            self.direction = "R"
-            self.animation_count = 0
-    def moveU(self, speed):
-        self.yspeed = -speed
-        if self.direction != "U":
-            self.direction = "U"
-            self.animation_count = 0
-    def moveD(self, speed):
-        self.yspeed = speed
-        if self.direction != "D":
-            self.direction = "D"
-            self.animation_count = 0
-
-    def loop(self, fps):
-        self.Lmove = (self.rect.x,self.rect.y)
-        self.move(self.xspeed,self.yspeed)     
-#argyblargybarggg
+from game import*
 mapx = 1950
 mapy = 1050
 #ergyblergyblerggg
-class Gameygamerson:
+class Gameygamerson2:
     def __init__(self):
         self.screen = pygame.display.set_mode((1950,1050))
         pygame.display.set_caption('Seth the Spy')
@@ -150,13 +81,10 @@ class Gameygamerson:
         player.rect.clamp_ip(screen_rect)
 #e moves !!!!
     def Emove(self, enemyX):
-        v_w=20
-        v_h = 1950
-        vision_x = enemyX.rect.centerx - (v_h // 2)
-        vision_y = enemyX.rect.y - v_h
-        vision_rect = pygame.Rect(vision_x, vision_y, v_w, v_h)
-        if vision_rect.colliderect(self.player.rect):
-            self.sneaky = False
+        for counterx in range(1950):
+            if self.player.rect.y == enemyX.rect.y - counterx and self.player.rect.x == enemyX.rect.x:
+                self.sneaky = False
+                print("true")
         if self.sneaky == False:
             self.movetoplayer(self.player, enemyX)
 
@@ -351,6 +279,7 @@ class Gameygamerson:
 
             for wall in self.wall_sprites:
                 if self.player.rect.colliderect(wall):
+                    print("COllISION")
                     if self.player.direction == "L":
                         self.player.rect.left = wall.rect.right
                     elif self.player.direction == "R":
