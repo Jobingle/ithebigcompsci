@@ -156,18 +156,20 @@ class Gameygamerson:
         vision_y = enemyX.rect.y - v_h
         vision_rect = pygame.Rect(vision_x, vision_y, v_w, v_h)
         if vision_rect.colliderect(self.player.rect):
-            self.sneaky = False
+            self.sneaky = True
         if self.sneaky == False:
             self.movetoplayer(self.player, enemyX)
 
     def Emove2( self, enemyX2):
-        for counterx in range(1950):
-            if self.player.rect.y == enemyX2.rect.y + counterx and self.player.rect.x == enemyX2.rect.x:
-                self.sneaky = False
-                print("true")
+        v_w = 20
+        v_h = 1950
+        vision_x = enemyX2.rect.centerx - (v_w // 2)
+        vision_y = enemyX2.rect.bottom 
+        vision_rect = pygame.Rect(vision_x, vision_y, v_w, v_h)
+        if vision_rect.colliderect(self.player.rect):
+            self.sneaky = False
         if self.sneaky == False:
-            self.movetoplayer2(self.player, enemyX2)
-        
+            self.movetoplayer(self.player, enemyX2)
 
     def Emove3( self, enemyX3):
         for counterx in range(1050):
