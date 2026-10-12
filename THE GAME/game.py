@@ -156,7 +156,7 @@ class Gameygamerson:
         vision_y = enemyX.rect.y - v_h
         vision_rect = pygame.Rect(vision_x, vision_y, v_w, v_h)
         if vision_rect.colliderect(self.player.rect):
-            self.sneaky = True
+            self.sneaky = False
         if self.sneaky == False:
             self.movetoplayer(self.player, enemyX)
 
@@ -171,21 +171,28 @@ class Gameygamerson:
         if self.sneaky == False:
             self.movetoplayer(self.player, enemyX2)
 
-    def Emove3( self, enemyX3):
-        for counterx in range(1050):
-            if self.player.rect.x == enemyX3.rect.x - counterx and self.player.rect.y == enemyX3.rect.y:
-                self.sneaky = False
-                print("true")
+    def Emove3(self, enemyX3):
+        v_w = 1050
+        v_h = enemyX3.rect.height
+        vision_x = enemyX3.rect.left - v_w
+        vision_y = enemyX3.rect.top
+        vision_rect = pygame.Rect(vision_x, vision_y, v_w, v_h)
+        if vision_rect.colliderect(self.player.rect):
+            self.sneaky = False 
         if self.sneaky == False:
             self.movetoplayer3(self.player, enemyX3)
 
-    def Emove4( self, enemyX4):
-        for counterx in range(1050):
-            if self.player.rect.x == enemyX4.rect.x + counterx and self.player.rect.y == enemyX4.rect.y:
-                self.sneaky = False
-                print("true")
+    def Emove4(self, enemyX4):
+        v_w = 1050
+        v_h = enemyX4.rect.height
+        vision_x = enemyX4.rect.right
+        vision_y = enemyX4.rect.top 
+        vision_rect = pygame.Rect(vision_x, vision_y, v_w, v_h)
+        if vision_rect.colliderect(self.player.rect):
+            self.sneaky = False
         if self.sneaky == False:
             self.movetoplayer4(self.player, enemyX4)
+
 #ENEMY 1!!!
     def movetoplayer(self, player, enemyX):
         mapX = self.grid_width
