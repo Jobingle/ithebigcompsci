@@ -90,7 +90,7 @@ class Gameygamerson:
         self.enemyX2 = enemyX(750, 750 , TILESIZE,TILESIZE, "D")
         self.enemyX3 = enemyX(1000, 750 ,TILESIZE,TILESIZE, "L")
         self.enemyX4 = enemyX(250, 250 ,TILESIZE,TILESIZE, "R")
-        self.door = theD_O_R_E(1000, 650 , TILESIZE,TILESIZE)
+        self.door = theD_O_R_E(0, 997.5 , TILESIZE,TILESIZE)
         self.all_sprites = pygame.sprite.Group()
         self.wall_sprites = pygame.sprite.Group()
         self.all_sprites.add(self.player)
@@ -123,8 +123,9 @@ class Gameygamerson:
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1],
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1],
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
-        
+            [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
+        #39
+        #20
     def mapGen(self): 
         for row in range(len(self.matrix)):
             for i in range(len(self.matrix[row])):
