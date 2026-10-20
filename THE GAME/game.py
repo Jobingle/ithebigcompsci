@@ -85,19 +85,9 @@ class Gameygamerson:
         self.screen = pygame.display.set_mode((1950,1050))
         pygame.display.set_caption('Seth the Spy')
         self.runninging = True
-        self.player = Player(50,250,TILESIZE,TILESIZE)
-        self.enemyX = enemyX(500, 500 , TILESIZE,TILESIZE, "U")
-        self.enemyX2 = enemyX(750, 750 , TILESIZE,TILESIZE, "D")
-        self.enemyX3 = enemyX(1000, 750 ,TILESIZE,TILESIZE, "L")
-        self.enemyX4 = enemyX(250, 250 ,TILESIZE,TILESIZE, "R")
         self.door = theD_O_R_E(20, 997.5 , TILESIZE,TILESIZE)
         self.all_sprites = pygame.sprite.Group()
         self.wall_sprites = pygame.sprite.Group()
-        self.all_sprites.add(self.player)
-        self.all_sprites.add(self.enemyX)
-        self.all_sprites.add(self.enemyX2)
-        self.all_sprites.add(self.enemyX3)
-        self.all_sprites.add(self.enemyX4)
         self.all_sprites.add(self.door)
         self.grid_width = 1950 // TILESIZE
         self.grid_height = 1050 // TILESIZE
@@ -124,6 +114,16 @@ class Gameygamerson:
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1],
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
             [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
+        self.player = Player(50,250,TILESIZE,TILESIZE)
+        self.enemyX = enemyX(500, 500 , TILESIZE,TILESIZE, self.matrix, "U", self.player)
+        self.enemyX2 = enemyX(750, 750 , TILESIZE,TILESIZE, self.matrix, "D", self.player)
+        self.enemyX3 = enemyX(1000, 750 ,TILESIZE,TILESIZE, self.matrix, "L", self.player)
+        self.enemyX4 = enemyX(250, 250 ,TILESIZE,TILESIZE, self.matrix, "R", self.player)
+        self.all_sprites.add(self.player)
+        self.all_sprites.add(self.enemyX)
+        self.all_sprites.add(self.enemyX2)
+        self.all_sprites.add(self.enemyX3)
+        self.all_sprites.add(self.enemyX4)
         #39
         #20
     def mapGen(self): 
@@ -159,7 +159,8 @@ class Gameygamerson:
                 if self.matrix[y][enemyX.rect.x // TILESIZE] == 0:
                     wall_that_is_in_between_them_dundundunnnnnnnn = True
             if wall_that_is_in_between_them_dundundunnnnnnnn == False:
-                self.sneaky = False    
+                self.sneaky = False
+                self.enemyX.movetoplayer(self.player, enemyX)   
 
     def Emove2( self, enemyX2):
         v_w = 20
@@ -168,9 +169,9 @@ class Gameygamerson:
         vision_y = enemyX2.rect.bottom 
         vision_rect = pygame.Rect(vision_x, vision_y, v_w, v_h)
         if vision_rect.colliderect(self.player.rect):
-            self.sneaky = True
+            self.sneaky = False
         if self.sneaky == False:
-            self.movetoplayer(self.player, enemyX2)
+            self.enemyX2.movetoplayer(self.player, enemyX2)
 #    def Emove(self, enemyX):
 #        for counterx in range(1950):
 #            if self.player.rect.y == enemyX.rect.y - counterx and self.player.rect.x == enemyX.rect.x:
@@ -187,9 +188,9 @@ class Gameygamerson:
         vision_y = enemyX3.rect.top
         vision_rect = pygame.Rect(vision_x, vision_y, v_w, v_h)
         if vision_rect.colliderect(self.player.rect):
-            self.sneaky = True 
+            self.sneaky = False
         if self.sneaky == False:
-            self.movetoplayer3(self.player, enemyX3)
+            self.enemyX3.movetoplayer(self.player, enemyX3)
 
     def Emove4(self, enemyX4):
         v_w = 1050
@@ -198,151 +199,10 @@ class Gameygamerson:
         vision_y = enemyX4.rect.top 
         vision_rect = pygame.Rect(vision_x, vision_y, v_w, v_h)
         if vision_rect.colliderect(self.player.rect):
-            self.sneaky = True
+            self.sneaky = False
         if self.sneaky == False:
-            self.movetoplayer4(self.player, enemyX4)
-
-#ENEMY 1!!!
-    def movetoplayer(self, player, enemyX):
-        mapX = self.grid_width
-        mapY = self.grid_height
-        matrix = self.matrix
-        grid = Grid(matrix=matrix)
-        start_x = enemyX.rect.x // TILESIZE
-        start_y = enemyX.rect.y // TILESIZE
-        end_x = player.rect.x // TILESIZE
-        end_y = player.rect.y // TILESIZE
-        start_x = max(0, min(start_x, mapX - 1))
-        start_y = max(0, min(start_y, mapY - 1))
-        end_x = max(0, min(end_x, mapX - 1))
-        end_y = max(0, min(end_y, mapY - 1))
-        start = grid.node(start_x, start_y)
-        end = grid.node(end_x, end_y)
-        finder = AStarFinder()
-        path, runs = finder.find_path(start, end, grid)
-        if len(path) > 1:
-            next_node = path[1]
-            enemyX.xspeed = 0
-            enemyX.yspeed = 0
-            #gracias hasattr absolute legend
-            if hasattr(next_node, 'x'):
-                nx, ny = next_node.x, next_node.y
-            else:
-                nx, ny = next_node[0], next_node[1]
-            if (nx, ny) == (start_x + 1, start_y):
-                enemyX.moveXR(enemyX.speed)
-            elif (nx, ny) == (start_x - 1, start_y):
-                enemyX.moveXL(enemyX.speed)
-            elif (nx, ny) == (start_x, start_y + 1):
-                enemyX.moveD(enemyX.speed)
-            elif (nx, ny) == (start_x, start_y - 1):
-                enemyX.moveU(enemyX.speed)
-            enemyX.move(enemyX.xspeed, enemyX.yspeed)
+            self.enemyX4.movetoplayer(self.player, enemyX4)
 #move enemy 2
-    def movetoplayer2(self, player, enemyX2):
-        mapX = self.grid_width
-        mapY = self.grid_height
-        matrix = self.matrix    
-        grid = Grid(matrix=matrix)
-        start_x = enemyX2.rect.x // TILESIZE
-        start_y = enemyX2.rect.y // TILESIZE
-        end_x = player.rect.x // TILESIZE
-        end_y = player.rect.y // TILESIZE
-        start_x = max(0, min(start_x, mapX - 1))
-        start_y = max(0, min(start_y, mapY - 1))
-        end_x = max(0, min(end_x, mapX - 1))
-        end_y = max(0, min(end_y, mapY - 1))
-        start = grid.node(start_x, start_y)
-        end = grid.node(end_x, end_y)
-        finder = AStarFinder()
-        path, runs = finder.find_path(start, end, grid)
-        if len(path) > 1:
-            next_node = path[1]
-            enemyX2.xspeed = 0
-            enemyX2.yspeed = 0
-            if hasattr(next_node, 'x'):
-                nx, ny = next_node.x, next_node.y
-            else:
-                nx, ny = next_node[0], next_node[1]
-            if (nx, ny) == (start_x + 1, start_y):
-                enemyX2.moveXR(enemyX2.speed)
-            elif (nx, ny) == (start_x - 1, start_y):
-                enemyX2.moveXL(enemyX2.speed)
-            elif (nx, ny) == (start_x, start_y + 1):
-                enemyX2.moveD(enemyX2.speed)
-            elif (nx, ny) == (start_x, start_y - 1):
-                enemyX2.moveU(enemyX2.speed)
-            enemyX2.move(enemyX2.xspeed, enemyX2.yspeed)
-#enemy 3
-    def movetoplayer3(self, player, enemyX3):
-        mapX = self.grid_width
-        mapY = self.grid_height
-        matrix = self.matrix    
-        grid = Grid(matrix=matrix)
-        start_x = enemyX3.rect.x // TILESIZE
-        start_y = enemyX3.rect.y // TILESIZE
-        end_x = player.rect.x // TILESIZE
-        end_y = player.rect.y // TILESIZE
-        start_x = max(0, min(start_x, mapX - 1))
-        start_y = max(0, min(start_y, mapY - 1))
-        end_x = max(0, min(end_x, mapX - 1))
-        end_y = max(0, min(end_y, mapY - 1))
-        start = grid.node(start_x, start_y)
-        end = grid.node(end_x, end_y)
-        finder = AStarFinder()
-        path, runs = finder.find_path(start, end, grid)
-        if len(path) > 1:
-            next_node = path[1]
-            enemyX3.xspeed = 0
-            enemyX3.yspeed = 0
-            if hasattr(next_node, 'x'):
-                nx, ny = next_node.x, next_node.y
-            else:
-                nx, ny = next_node[0], next_node[1]
-            if (nx, ny) == (start_x + 1, start_y):
-                enemyX3.moveXR(enemyX3.speed)
-            elif (nx, ny) == (start_x - 1, start_y):
-                enemyX3.moveXL(enemyX3.speed)
-            elif (nx, ny) == (start_x, start_y + 1):
-                enemyX3.moveD(enemyX3.speed)
-            elif (nx, ny) == (start_x, start_y - 1):
-                enemyX3.moveU(enemyX3.speed)
-            enemyX3.move(enemyX3.xspeed, enemyX3.yspeed)
-#444 44
-    def movetoplayer4(self, player, enemyX4):
-        mapX = self.grid_width
-        mapY = self.grid_height
-        matrix = self.matrix        
-        grid = Grid(matrix=matrix)
-        start_x=enemyX4.rect.x // TILESIZE
-        start_y = enemyX4.rect.y // TILESIZE
-        end_x = player.rect.x // TILESIZE
-        end_y = player.rect.y // TILESIZE
-        start_x = max(0, min(start_x, mapX - 1))
-        start_y = max(0, min(start_y, mapY - 1))
-        end_x = max(0, min(end_x, mapX - 1))
-        end_y = max(0, min(end_y, mapY - 1))
-        start = grid.node(start_x, start_y)
-        end = grid.node(end_x, end_y)
-        finder = AStarFinder()
-        path, runs = finder.find_path(start, end, grid)
-        if len(path) > 1:
-            next_node = path[1]
-            enemyX4.xspeed = 0
-            enemyX4.yspeed = 0
-            if hasattr(next_node, 'x'):
-                nx, ny = next_node.x, next_node.y
-            else:
-                nx, ny = next_node[0], next_node[1]
-            if (nx, ny) == (start_x + 1, start_y):
-                enemyX4.moveXR(enemyX4.speed)
-            elif (nx, ny) == (start_x - 1, start_y):
-                enemyX4.moveXL(enemyX4.speed)
-            elif (nx, ny) == (start_x, start_y + 1):
-                enemyX4.moveD(enemyX4.speed)
-            elif (nx, ny) == (start_x, start_y - 1):
-                enemyX4.moveU(enemyX4.speed)
-            enemyX4.move(enemyX4.xspeed, enemyX4.yspeed)
 #drawninininginigng
 
     def run(self):

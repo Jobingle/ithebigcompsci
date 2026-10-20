@@ -1,10 +1,18 @@
 import pygame
 from settings import *
+from pathfinding.core.grid import Grid
+from pathfinding.finder.a_star import AStarFinder
+from game import *
 
 class enemyX(pygame.sprite.Sprite):
-    def __init__(self, x, y,width ,height,face):
+    def __init__(self, x, y,width ,height,matrix,face, player):
         super().__init__()
         self.rect = pygame.Rect(x,y,width,height)
+        self.grid_width = 1950 // TILESIZE
+        self.grid_height = 1050 // TILESIZE
+        self.sneaky = True
+        self.matrix = matrix
+        self.player = player
         new_size = (width,height)
         self.speed = 2
         self.xspeed = 0 
@@ -75,6 +83,43 @@ class enemyX(pygame.sprite.Sprite):
         if self.direction != "D":
             self.direction = "D"
             self.animation_count = 0
+
+
+    def movetoplayer(self, player, enemyX):
+        mapX = self.grid_width
+        mapY = self.grid_height
+        matrix = self.matrix
+        grid = Grid(matrix=matrix)
+        start_x = self.rect.x // TILESIZE
+        start_y = self.rect.y // TILESIZE
+        end_x = self.player.rect.x // TILESIZE
+        end_y = self.player.rect.y // TILESIZE
+        start_x =max(0, min(start_x, mapX - 1))
+        start_y = max(0, min(start_y, mapY - 1))
+        end_x = max(0, min(end_x, mapX - 1))
+        end_y = max(0, min(end_y, mapY - 1))
+        start = grid.node(start_x, start_y)
+        end = grid.node(end_x, end_y)
+        finder = AStarFinder()
+        path, runs = finder.find_path(start, end, grid)
+        if len(path) > 1:
+            next_node = path[1]
+            self.xspeed = 0
+            self.yspeed = 0
+            #gracias hasattr absolute legend
+            if hasattr(next_node, 'x'):
+                nx, ny = next_node.x, next_node.y
+            else:
+                nx, ny = next_node[0], next_node[1]
+            if (nx, ny) == (start_x + 1, start_y):
+                self.moveXR(self.speed)
+            elif (nx, ny) == (start_x - 1, start_y):
+                self.moveXL(self.speed)
+            elif (nx, ny) == (start_x, start_y + 1):
+                self.moveD(self.speed)
+            elif (nx, ny) == (start_x, start_y - 1):
+                self.moveU(self.speed)
+            self.move(self.xspeed, self.yspeed)
 
     def loop(self, fps):
         self.Lmove = (self.rect.x,self.rect.y)
