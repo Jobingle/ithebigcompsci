@@ -47,7 +47,7 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         self.animate()
-
+#move!!!!!!!
     def move(self, dx , dy):
         self.rect.x += dx
         self.rect.y += dy
@@ -76,10 +76,10 @@ class Player(pygame.sprite.Sprite):
     def loop(self, fps):
         self.Lmove = (self.rect.x,self.rect.y)
         self.move(self.xspeed,self.yspeed)     
-#argyblargybarggg
+#argyblargybarggg important map stuff
 mapx = 1950
 mapy = 1050
-#ergyblergyblerggg
+#ergyblergyblerggg new class 
 class Gameygamerson:
     def __init__(self):
         self.screen = pygame.display.set_mode((1950,1050))
@@ -103,7 +103,7 @@ class Gameygamerson:
             [1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
             [1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
             [1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1],
-            [1,1,1,1,1,1,1,1,0,0,1,1,1,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
+            [1,1,1,1,1,1,1,1,0,0,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
             [1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1],
             [1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,0],
             [1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,0],
@@ -134,7 +134,7 @@ class Gameygamerson:
                     print(i * TILESIZE, row * TILESIZE)
                     self.all_sprites.add(new_wall)
                     self.wall_sprites.add(new_wall)
-#P moves!!!!
+#Player moves!!!!
     def pmove(self, player):
         keys = pygame.key.get_pressed() 
         player.xspeed = 0
@@ -149,19 +149,20 @@ class Gameygamerson:
           player.moveD(player.speed)
         screen_rect = self.screen.get_rect()
         player.rect.clamp_ip(screen_rect)
-#e moves !!!!
+#Enemy moves !!!!
     def Emovebutfrthistime(self, enemyX):
         if self.player.rect.x// TILESIZE == enemyX.rect.x//TILESIZE:
             startetY = enemyX.rect.y // TILESIZE
             endetY = self.player.rect.y // TILESIZE
             wall_that_is_in_between_them_dundundunnnnnnnn = False
-            for y in range(startetY,endetY):
+            for y in range(min(startetY, endetY), max(startetY, endetY) + 1):
                 if self.matrix[y][enemyX.rect.x // TILESIZE] == 0:
                     wall_that_is_in_between_them_dundundunnnnnnnn = True
-            if wall_that_is_in_between_them_dundundunnnnnnnn == False:
+            if not wall_that_is_in_between_them_dundundunnnnnnnn:
                 self.sneaky = False
-                self.enemyX.movetoplayer(self.player, enemyX)   
-
+        if self.sneaky == False:  
+            enemyX.movetoplayer(self.player, enemyX)   
+#another one
     def Emove2( self, enemyX2):
         v_w = 20
         v_h = 1950
@@ -172,15 +173,7 @@ class Gameygamerson:
             self.sneaky = False
         if self.sneaky == False:
             self.enemyX2.movetoplayer(self.player, enemyX2)
-#    def Emove(self, enemyX):
-#        for counterx in range(1950):
-#            if self.player.rect.y == enemyX.rect.y - counterx and self.player.rect.x == enemyX.rect.x:
-#                self.sneaky = False
-#        if self.sneaky == False:
-#            self.movetoplayer(self.player, enemyX) 
-         
-
-
+#another one
     def Emove3(self, enemyX3):
         v_w = 1050
         v_h = enemyX3.rect.height
@@ -191,7 +184,7 @@ class Gameygamerson:
             self.sneaky = False
         if self.sneaky == False:
             self.enemyX3.movetoplayer(self.player, enemyX3)
-
+#another one
     def Emove4(self, enemyX4):
         v_w = 1050
         v_h = enemyX4.rect.height
@@ -202,8 +195,8 @@ class Gameygamerson:
             self.sneaky = False
         if self.sneaky == False:
             self.enemyX4.movetoplayer(self.player, enemyX4)
-#move enemy 2
-#drawninininginigng
+
+#drawninininginigng on the screen
 
     def run(self):
         self.mapGen()
@@ -218,7 +211,7 @@ class Gameygamerson:
 
             self.pmove(self.player)
             self.player.loop(FPS)
-
+#move enemy pleases and thank yous
             self.Emovebutfrthistime(self.enemyX)
             self.enemyX.loop(FPS)
             self.Emove2(self.enemyX2)
@@ -227,7 +220,7 @@ class Gameygamerson:
             self.enemyX3.loop(FPS)
             self.Emove4(self.enemyX4)
             self.enemyX4.loop(FPS)
-
+#wall collision player
             for wall in self.wall_sprites:
                 if self.player.rect.colliderect(wall):
                     if self.player.direction == "L":
@@ -238,7 +231,7 @@ class Gameygamerson:
                         self.player.rect.top = wall.rect.bottom
                     elif self.player.direction == "D":
                         self.player.rect.bottom = wall.rect.top
-                
+#enemy collision player        
 
             if self.player.rect.colliderect(self.enemyX.rect):
                 newgame = looser()
@@ -259,7 +252,7 @@ class Gameygamerson:
                 newgame = looser()
                 newgame.play()
                 self.runninging = False
-
+#door collision player
             if self.player.rect.colliderect(self.door.rect):
                 newgame = winscr()
                 newgame.play()
