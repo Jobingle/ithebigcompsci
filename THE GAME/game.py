@@ -164,38 +164,57 @@ class Gameygamerson:
         if self.sneaky == False:  
             enemyX.movetoplayer(self.player, enemyX)   
 #another one
-    def Emove2( self, enemyX2):
-        v_w = 20
-        v_h = 1950
-        vision_x = enemyX2.rect.centerx - (v_w // 2)
-        vision_y = enemyX2.rect.bottom 
-        vision_rect = pygame.Rect(vision_x, vision_y, v_w, v_h)
-        if vision_rect.colliderect(self.player.rect):
-            self.sneaky = False
+    def Emovebutfrthistime_down(self, enemyX):
+        if self.player.rect.x // TILESIZE == enemyX.rect.x // TILESIZE:
+            startetY = enemyX.rect.y // TILESIZE
+            endetY = self.player.rect.y // TILESIZE
+            if endetY > startetY:
+                wall_that_is_in_between_them_dundundunnnnnnnn = False
+                for y in range(startetY, endetY + 1):
+                    if self.matrix[y][enemyX.rect.x // TILESIZE] == 0:
+                        wall_that_is_in_between_them_dundundunnnnnnnn = True
+                if not wall_that_is_in_between_them_dundundunnnnnnnn:
+                    self.sneaky = False
         if self.sneaky == False:
-            self.enemyX2.movetoplayer(self.player, enemyX2)
+            enemyX.movetoplayer(self.player, enemyX)
+#    def Emove2( self, enemyX2):
+#        v_w = 20
+#        v_h = 1950
+#        vision_x = enemyX2.rect.centerx - (v_w // 2)
+#        vision_y = enemyX2.rect.bottom 
+#        vision_rect = pygame.Rect(vision_x, vision_y, v_w, v_h)
+#        if vision_rect.colliderect(self.player.rect):
+#            self.sneaky = False
+#        if self.sneaky == False:
+#            self.enemyX2.movetoplayer(self.player, enemyX2)
 #another one
-    def Emove3(self, enemyX3):
-        v_w = 1050
-        v_h = enemyX3.rect.height
-        vision_x = enemyX3.rect.left - v_w
-        vision_y = enemyX3.rect.top
-        vision_rect = pygame.Rect(vision_x, vision_y, v_w, v_h)
-        if vision_rect.colliderect(self.player.rect):
-            self.sneaky = False
+    def Emovebutfrthistime_left(self, enemyX):
+        if self.player.rect.y // TILESIZE == enemyX.rect.y // TILESIZE:
+            startetX = enemyX.rect.x // TILESIZE
+            endetX = self.player.rect.x // TILESIZE
+            if endetX < startetX:  #playerLEFT
+                wall_that_is_in_between_them_dundundunnnnnnnn = False
+                for x in range(endetX, startetX + 1):
+                    if self.matrix[enemyX.rect.y // TILESIZE][x] == 0:
+                        wall_that_is_in_between_them_dundundunnnnnnnn = True
+                if not wall_that_is_in_between_them_dundundunnnnnnnn:
+                    self.sneaky = False
         if self.sneaky == False:
-            self.enemyX3.movetoplayer(self.player, enemyX3)
+            enemyX.movetoplayer(self.player, enemyX)
 #another one
-    def Emove4(self, enemyX4):
-        v_w = 1050
-        v_h = enemyX4.rect.height
-        vision_x = enemyX4.rect.right
-        vision_y = enemyX4.rect.top 
-        vision_rect = pygame.Rect(vision_x, vision_y, v_w, v_h)
-        if vision_rect.colliderect(self.player.rect):
-            self.sneaky = False
+    def Emovebutfrthistime_right(self, enemyX):
+        if self.player.rect.y // TILESIZE == enemyX.rect.y // TILESIZE:
+            startetX = enemyX.rect.x // TILESIZE
+            endetX = self.player.rect.x // TILESIZE
+            if endetX > startetX:  #player is specifically RIGHT
+                wall_that_is_in_between_them_dundundunnnnnnnn = False
+                for x in range(startetX, endetX + 1):
+                    if self.matrix[enemyX.rect.y // TILESIZE][x] == 0:
+                        wall_that_is_in_between_them_dundundunnnnnnnn = True
+                if not wall_that_is_in_between_them_dundundunnnnnnnn:
+                    self.sneaky = False
         if self.sneaky == False:
-            self.enemyX4.movetoplayer(self.player, enemyX4)
+            enemyX.movetoplayer(self.player, enemyX)
 
 #drawninininginigng on the screen
 
@@ -215,11 +234,11 @@ class Gameygamerson:
 #move enemy pleases and thank yous
             self.Emovebutfrthistime(self.enemyX)
             self.enemyX.loop(FPS)
-            self.Emove2(self.enemyX2)
+            self.Emovebutfrthistime_down(self.enemyX2)
             self.enemyX2.loop(FPS)
-            self.Emove3(self.enemyX3)
+            self.Emovebutfrthistime_left(self.enemyX3)
             self.enemyX3.loop(FPS)
-            self.Emove4(self.enemyX4)
+            self.Emovebutfrthistime_right(self.enemyX4)
             self.enemyX4.loop(FPS)
 #wall collision player
             for wall in self.wall_sprites:
