@@ -13,6 +13,7 @@ class enemyX(pygame.sprite.Sprite):
         self.sneaky = True
         self.matrix = matrix
         self.player = player
+        self.anmove = False
         new_size = (width,height)
         self.speed = 2
         self.xspeed = 0 
@@ -37,14 +38,20 @@ class enemyX(pygame.sprite.Sprite):
         self.animation_count += self.animation_speed
         
         if self.direction == "L":
-            if self.animation_count >= len(self.animation_framesEL):
-                self.animation_count = 0
-            self.image = self.animation_framesEL[int(self.animation_count)]
-            
+            if self.anmove == False:
+                self.image = self.animation_framesESR[0]
+            else:
+                if self.animation_count >= len(self.animation_framesEL):
+                    self.animation_count = 0
+                self.image = self.animation_framesEL[int(self.animation_count)]
+                
         elif self.direction == "R":
-            if self.animation_count >= len(self.animation_framesER):
-                self.animation_count = 0
-            self.image = self.animation_framesER[int(self.animation_count)]
+            if self.anmove == False:
+                self.image = self.animation_framesESL[0]
+            else: 
+                if self.animation_count >= len(self.animation_framesER):
+                    self.animation_count = 0
+                self.image = self.animation_framesER[int(self.animation_count)]
             
         elif self.direction == "D":
             if self.animation_count >= len(self.animation_framesES):
@@ -68,22 +75,28 @@ class enemyX(pygame.sprite.Sprite):
         if self.direction != "L":
             self.direction = "L"
             self.animation_count = 0
+        self.anmove = True
+
     def moveXR(self, speed):
         self.xspeed = speed
         if self.direction != "R":
             self.direction = "R"
             self.animation_count = 0
+        self.anmove = True
+        
     def moveU(self, speed):
         self.yspeed = -speed
         if self.direction != "U":
             self.direction = "U"
             self.animation_count = 0
+        self.anmove = True
+
     def moveD(self, speed):
         self.yspeed = speed
         if self.direction != "D":
             self.direction = "D"
             self.animation_count = 0
-
+        self.anmove = True
 
     def movetoplayer(self, player, enemyX):
         mapX = self.grid_width
